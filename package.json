@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "asciidoctor-reveal.js": "^2.0.0"
+  },
+  "scripts": {
+    "build": "node asciidoctor-reveal.js"
+  }
+}
