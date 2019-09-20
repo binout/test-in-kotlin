@@ -1,0 +1,151 @@
+= Tester en Kotlin
+
+== Kotlin
+
+* Historique du langage
+* Concept clé
+* Positionnement par rapport Java
+
+== Force du langage
+
+* Null Safety
+* Immutable first
+* Productivité centric
+* Object et Fonctionnel
+* Orienté DSL
+
+== Kotlin et moi ?
+
+* Développeur Java depuis 10 ans
+* Maintenant Kotlin -> langage de base
+
+== Pourquoi parler des tests ?
+
+* On commence toujours par les tests ;-)
+
+== Projet mix Java/Kotlin
+
+* Facile à configurer
+* Pas de pré-requis
+* Java <-> Kotlin
+
+== Les tests : un super terrain de jeu
+
+* Pas du code de production
+* Plus de liberté dans le design (en particulier dans du code legacy)
+* Super important d'avoir un bon environnement de test
+* Bac à sable pour apprendre Kotlin
+
+== Disclaimer
+
+* Au cours de cette présentation, je vais aborder des concepts du langage Kotlin par des exemples issus de code de test
+
+== Framework de test
+
+* Un runner
+* Une lib d'assertions
+* Une lib de mock
+
+== Runner
+
+Kotlin Test vs Junit 
+
+== Junit 5 FTW !
+
+* Refonte totale de Junit 
+* Cf Devoxx Tools In Action
+* Extension 
+
+== JUnit 4 pas pour Kotlin
+
+* Exemple de code en Kotlin / Junit 4
+* Comparaison avec Junit 5
+
+== Tips Junit 5
+
+* Junit et instanciation de classe
+** Lifecyle.PER_CLASS
+* Provider et Junit 5 (Companion et @JVMOverload)
+
+== Assertions
+
+* AssertK vs AssertJ (fork de fest-assert)
+* AssertJ c'est bien : pourquoi changer ?
+
+== AssertJ et Kotlin
+
+* Pas de problème, on reste sur la forme
+
+[source]
+----
+assertThat(...).isEqualTo()
+----
+
+== Tip AssertJ
+[source]
+----
+with(..) {
+    assertThat()
+}
+----
+
+* Awaitility untilAsserted
+
+
+== Mockito ?
+
+* Problème avec les classes finales
+* when mot clé réservé
+
+== Alternative Mockkk
+
+* Cf Devoxx
+* Syntax DSL élégante avec toutes les fonctions de mockito
+
+[source]
+----
+every { } returns ...
+----
+
+== Tips Mockk
+
+* Mockk matcher
+* ClearMockks
+
+== Alors lundi vous commencez Kotlin ?
+
+Pre-requis :
+* Junit 5
+* Intellij
+
+1. Configurer maven/gradle
+2. src/test/kotlin
+3. add mockk as dependency
+
+
+== C'est pas suffisant, Retour d'expérience
+
+2 ans : code base de 60 000 LOC en java (7 microservices)
+
+Aujourd'hui : 5 microservices en full kotlin
+
+Dans quelques mois : codebase totalement en kotlin
+
+== Chiffre
+
+En moyenne 20% de LOC en moins (sans perte d'information)
+
+Exemple : 
+* stream().map().collect() -> map()
+* dataclass
+
+== ça change quoi ?
+
+LOVE
+
+Difficile de revenir en arrière
+
+== Pour aller plus loin
+
+* Article Kotlin
+* Article Java
