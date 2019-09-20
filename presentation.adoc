@@ -2,6 +2,7 @@
 :source-highlighter: highlightjs
 :revealjs_theme: white
 :revealjs_history: true
+:data-uri:
 
 == Kotlin
 
@@ -55,6 +56,10 @@ Au cours de cette présentation, je vais aborder des concepts du langage Kotlin 
 Kotlin Test vs Junit 
 
 == Junit 5 FTW !
+
+image::images/junit5.jpeg[]
+
+== JUnit 5
 
 * Refonte totale de Junit 
 * Cf Devoxx Tools In Action
