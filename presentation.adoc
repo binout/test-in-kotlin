@@ -75,7 +75,6 @@ image::images/junit5.jpeg[]
 * Junit et instanciation de classe
 ** Lifecyle.PER_CLASS
 * Provider et Junit 5 (Companion et @JVMOverload)
-* Helper methods with default argument
 
 == Assertions
 
@@ -124,6 +123,11 @@ every { } returns ...
 
 * Mockk matcher
 * ClearMockks
+
+== Misc Tips
+
+* Helper methods with default argument
+* DSL pour construire les jeux de données
 
 == Alors lundi vous commencez Kotlin ?
 
