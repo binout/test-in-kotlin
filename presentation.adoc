@@ -128,6 +128,8 @@ every { } returns ...
 
 * Helper methods with default argument
 * DSL pour construire les jeux de données
+* Infix méthode 
+* Méthodes d'extensions pour simplifier la construction de jeu de donnée
 
 == Alors lundi vous commencez Kotlin ?
 
