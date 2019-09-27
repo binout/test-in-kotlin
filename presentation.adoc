@@ -3,42 +3,90 @@
 :revealjs_theme: white
 :revealjs_history: true
 :data-uri:
+:icons: font
 
-== Kotlin
+== ⏱Kotlin, en quelque dates
 
-* Historique du langage
-* Concept clé
-* Positionnement par rapport Java
+* 2010 💡 JetBrains
+* 2012 🤝 Open Source
+* 2016 🚀 Kotlin `1.0`
+* 2017 📱 Google I/O
+* 2019 🤩 Kotlin `1.3.50`
 
-== Force du langage
+== 🤓Kotlin en quelques mots
 
-* Null Safety
-* Immutable first
-* Productivité centric
-* Object et Fonctionnel
-* Orienté DSL
+[quote]
+Langage statiquement *typé*, orienté *object* et *fonctionnel*, centré sur la *productivité* du développeur
 
-== Kotlin et moi ?
+== Kotlin en quelques lignes de code
 
-* Développeur Java depuis 10 ans
-* Maintenant Kotlin -> langage de base
+[source]
+----
+fun main() {
+    println("Hello World!")
+}
+----
+
+== Forces du langage
+
+* 💪_Null Safety_ 
+** `null` fait partie du système de type
+* 👍_Immutable first_ 
+** variable et collection immutables par défaut
+* 📖Concis et expressif
+* 🤝Interopabilité avec `Java` et son éco-système
+** Build, Librairies, Outils
+
+== Kotlin en 2019
+
+image:images/kotlin-2019-1.png[]
+
+== Kotlin en 2019
+
+image:images/kotlin-2019-2.png[]
+
+== Kotlin en 2019
+
+image:images/kotlin-2019-3.png[]
+
+== val me = "Benoit Prioux"
+
+Tech Lead 
+
+image:images/lectra.png[]
+
+* icon:twitter[] icon:github[] binout 
+* 10 ans ☕️ -> Kotlin 😍
+* ❤️ Asciidoctor (🐜)
 
 == Pourquoi parler des tests ?
 
-* On commence toujours par les tests ;-)
+image::images/testerdouter.png[]
+
+== 🎮 Un super terrain de jeu 
+
+* 😇Pas du code de production
+* 😜Plus de liberté dans le design
+* 🧔Souvent un peu de code _barbant_ 
+** préparation des jeux de données
+
+== 💡Ma proposition 
+
+[quote]
+Apprendre Kotlin par les tests
+
+[quote]
+Introduire Kotlin dans votre projet par les tests
+
+== Java + Kotlin
+
+image::images/java-kotlin-compilation.png[]
 
 == Projet mix Java/Kotlin
 
 * Facile à configurer
 * Pas de pré-requis
 * Java <-> Kotlin
-
-== Les tests : un super terrain de jeu
-
-* Pas du code de production
-* Plus de liberté dans le design (en particulier dans du code legacy)
-* Super important d'avoir un bon environnement de test
-* Bac à sable pour apprendre Kotlin
 
 == Disclaimer
 
@@ -57,7 +105,7 @@ Kotlin Test vs Junit
 
 == Junit 5 FTW !
 
-image::images/junit5.jpeg[]
+image::images/junit5.png[]
 
 == JUnit 5
 
