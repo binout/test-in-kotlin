@@ -5,7 +5,9 @@
 :data-uri:
 :icons: font
 
-== ⏱Kotlin, en quelque dates
+== Kotlin
+
+=== ⏱Kotlin, en quelque dates
 
 * 2010 💡 JetBrains
 * 2012 🤝 Open Source
@@ -13,12 +15,12 @@
 * 2017 📱 Google I/O
 * 2019 🤩 Kotlin `1.3.50`
 
-== 🤓Kotlin en quelques mots
+=== 🤓Kotlin en quelques mots
 
 [quote]
 Langage statiquement *typé*, orienté *object* et *fonctionnel*, centré sur la *productivité* du développeur
 
-== Kotlin en quelques lignes de code
+=== Kotlin en quelques lignes de code
 
 [source]
 ----
@@ -27,7 +29,7 @@ fun main() {
 }
 ----
 
-== Forces du langage
+=== Forces du langage
 
 * 💪_Null Safety_ 
 ** `null` fait partie du système de type
@@ -37,15 +39,15 @@ fun main() {
 * 🤝Interopabilité avec `Java` et son éco-système
 ** Build, Librairies, Outils
 
-== Kotlin en 2019
+=== Kotlin en 2019
 
 image:images/kotlin-2019-1.png[]
 
-== Kotlin en 2019
+=== Kotlin en 2019
 
 image:images/kotlin-2019-2.png[]
 
-== Kotlin en 2019
+=== Kotlin en 2019
 
 image:images/kotlin-2019-3.png[]
 
@@ -78,47 +80,146 @@ Apprendre Kotlin par les tests
 [quote]
 Introduire Kotlin dans votre projet par les tests
 
-== Java + Kotlin
+=== Java + Kotlin
 
 image::images/java-kotlin-compilation.png[]
 
-== Projet mix Java/Kotlin
+=== Projet mix Java/Kotlin
 
-* Facile à configurer
-* Pas de pré-requis
-* Java <-> Kotlin
+. Créer : `src/test/kotlin`
+. Configurer build : plugin `Maven`/`Gradle`
+. Ajouter :
+[source]
+----
+    <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-stdlib</artifactId>
+        <version>${kotlin.version}</version>
+    </dependency>
+----
+
+=== Java 🤝 Kotlin
+
+image:images/kotlin-java.png[]
 
 == Disclaimer
 
 [quote]
 Au cours de cette présentation, je vais aborder des concepts du langage Kotlin par des exemples issus de code de test
 
-== Framework de test
+== 🏭Framework de test
 
-* Un runner
-* Une lib d'assertions
-* Une lib de mock
+* Un runner 
+* Une librairie d'assertions
+* Une librairie de mock
 
-== Runner
+=== kotlin.test
 
-Kotlin Test vs Junit 
+TODO()
 
-== Junit 5 FTW !
+=== KotlinTest
 
-image::images/junit5.png[]
+TODO()
+
+=== Example 
+
+[source]
+----
+class MyTests : StringSpec({
+  "length should return size of string" {
+    "hello".length shouldBe 5
+  }
+  "startsWith should test for a prefix" {
+    "world" should startWith("wor")
+  }
+})
+----
+
+== Mon avis 
+
+* Apprendre un nouveau framework de test en plus d'apprendre un nouveau langage 🤯
+
+[quote]
+Junit FTW !
+
+
+=== JUnit 4 pas pour Kotlin
+
+* Exemple de code en Kotlin / Junit 4
+* Comparaison avec Junit 5
+
+=== Junit 4 & Java
+
+[source]
+----
+public class RepoTestJUnit4 {
+
+    private static Database db;
+    private static Repository repo;
+
+    @BeforeClass
+    public void initialize() {
+        db = new TestDatabase()
+        db.start()
+        repo = new Repository(db)
+    }
+
+    @Test
+    public void foo() {
+        // test repo
+    }
+}
+----
+
+=== Junit 4 & Kotlin
+
+[source]
+----
+class RepoTestJUnit4 {
+
+    companion object {
+        @JvmStatic
+        private lateinit var db: Database
+        @JvmStatic
+        private lateinit var repo: Repository
+
+        @BeforeClass
+        @JvmStatic
+        fun initialize() {
+            db = TestDatabase()
+            db.start()
+            repo = Repository(db.host, db.port)
+        }
+    }
+
+    @Test
+    fun foo() {
+        // test repo
+    }
+}
+----
+
+=== Kotlin val/var
+
+TODO()
+
+=== Kotlin : no static
+
+TODO()
+
+==== Kotlin idiomatic
+
+TODO()
 
 == JUnit 5
+
+image::images/junit5.png[]
 
 * Refonte totale de Junit 
 * Cf Devoxx Tools In Action
 * Extension 
 
-== JUnit 4 pas pour Kotlin
-
-* Exemple de code en Kotlin / Junit 4
-* Comparaison avec Junit 5
-
-== Tips Junit 5
+=== Tips Junit 5
 
 * Junit et instanciation de classe
 ** Lifecyle.PER_CLASS
@@ -129,7 +230,7 @@ image::images/junit5.png[]
 * AssertK vs AssertJ (fork de fest-assert)
 * AssertJ c'est bien : pourquoi changer ?
 
-== AssertJ et Kotlin
+=== AssertJ et Kotlin
 
 * Pas de problème, on reste sur la forme
 
@@ -138,7 +239,7 @@ image::images/junit5.png[]
 assertThat(...).isEqualTo()
 ----
 
-== Tip AssertJ
+=== Tip AssertJ
 
 * dataclass
 
@@ -157,7 +258,7 @@ with(..) {
 * Problème avec les classes finales
 * when mot clé réservé
 
-== Alternative Mockkk
+=== Alternative Mockkk
 
 * Cf Devoxx
 * Syntax DSL élégante avec toutes les fonctions de mockito
@@ -167,7 +268,7 @@ with(..) {
 every { } returns ...
 ----
 
-== Tips Mockk
+=== Tips Mockk
 
 * Mockk matcher
 * ClearMockks
