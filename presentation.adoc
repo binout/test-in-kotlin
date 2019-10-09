@@ -5,7 +5,9 @@
 :data-uri:
 :icons: font
 
-== Kotlin
+== Tu connais ?
+
+image:images/kotlin.png[]
 
 === ⏱Kotlin, en quelque dates
 
@@ -32,20 +34,17 @@ fun main() {
 === Forces du langage
 
 * 💪_Null Safety_ 
-** `null` fait partie du système de type
 * 👍_Immutable first_ 
-** variable et collection immutables par défaut
 * 📖Concis et expressif
-* 🤝Interopabilité avec `Java` et son éco-système
-** Build, Librairies, Outils
+* 🤝Interopabilité avec `Java`
 
 === Kotlin en 2019
 
-image:images/kotlin-2019-1.png[]
+image:images/kotlin-2019-1.png[width=60%]
 
 === Kotlin en 2019
 
-image:images/kotlin-2019-2.png[]
+image:images/kotlin-2019-2.png[width=70%]
 
 === Kotlin en 2019
 
@@ -58,8 +57,11 @@ Tech Lead
 image:images/lectra.png[]
 
 * icon:twitter[] icon:github[] binout 
-* 10 ans ☕️ -> Kotlin 😍
 * ❤️ Asciidoctor (🐜)
+
+== { java -> kotlin }
+
+image:images/java-kotlin.png[]
 
 == Pourquoi parler des tests ?
 
@@ -86,9 +88,9 @@ image::images/java-kotlin-compilation.png[]
 
 === Projet mix Java/Kotlin
 
-. Créer : `src/test/kotlin`
-. Configurer build : plugin `Maven`/`Gradle`
-. Ajouter :
+. Créer `src/test/kotlin`
+. Configurer build -> plugin `Maven`/`Gradle`
+. Ajouter
 [source]
 ----
     <dependency>
@@ -102,7 +104,7 @@ image::images/java-kotlin-compilation.png[]
 
 image:images/kotlin-java.png[]
 
-== Disclaimer
+== 📣Disclaimer
 
 [quote]
 Au cours de cette présentation, je vais aborder des concepts du langage Kotlin par des exemples issus de code de test
@@ -113,13 +115,20 @@ Au cours de cette présentation, je vais aborder des concepts du langage Kotlin 
 * Une librairie d'assertions
 * Une librairie de mock
 
-=== kotlin.test
+=== 🤨kotlin.test
 
-TODO()
+* _Built-in_ librairie
+** annotations (`@BeforeEach`, ....)
+** assertions (`assertEquals`, ...)
+
+* A besoin d'un runner : `Junit`, `TestNG`
 
 === KotlinTest
 
-TODO()
+image:images/kotlintest.png[]
+
+* Inspiré de `ScalaTest`
+* Propose plusieurs _styles_ de test : `StringSpec`, `FunSpec`, `DescribeSpec`, ...
 
 === Example 
 
@@ -139,18 +148,11 @@ class MyTests : StringSpec({
 
 * Apprendre un nouveau framework de test en plus d'apprendre un nouveau langage 🤯
 
-[quote]
-Junit FTW !
-
-
-=== JUnit 4 pas pour Kotlin
-
-* Exemple de code en Kotlin / Junit 4
-* Comparaison avec Junit 5
+image:images/junit.png[]
 
 === Junit 4 & Java
 
-[source]
+[source, java]
 ----
 public class RepoTestJUnit4 {
 
@@ -173,7 +175,7 @@ public class RepoTestJUnit4 {
 
 === Junit 4 & Kotlin
 
-[source]
+[source, kotlin]
 ----
 class RepoTestJUnit4 {
 
@@ -199,33 +201,119 @@ class RepoTestJUnit4 {
 }
 ----
 
-=== Kotlin val/var
+=== WTF ?
 
-TODO()
+image:images/wtf.png[]
 
-=== Kotlin : no static
+=== Kotlin `val`, `var`
 
-TODO()
+.val 👍
+[source, kotlin]
+----
+val language: String = "Java"
+language = "Kotlin" //Compilation error
+----
 
-==== Kotlin idiomatic
+.var 😒
+[source, kotlin]
+----
+var age: Int = 37
+age = 38
+----
 
-TODO()
+.var et null 👎
+[source, kotlin]
+----
+var age: Int? = null
+age = 38
+----
 
-== JUnit 5
+=== Kotlin : No `static`
 
-image::images/junit5.png[]
+* 😇 Pas de mot-clé `static` en Kotlin
+* `companion object` = singleton associé à une classe
+** permet de définir des fonctions sur cet unique instance rattaché à une classe
 
-* Refonte totale de Junit 
-* Cf Devoxx Tools In Action
-* Extension 
+=== Exemple `companion object`
 
-=== Tips Junit 5
+[source, kotlin]
+----
+class Person private constructor(val name: String, 
+                                 val gender: String) {
 
-* Junit et instanciation de classe
-** Lifecyle.PER_CLASS
-* Provider et Junit 5 (Companion et @JVMOverload)
+    companion object {
+        fun man(name: String) = Person(name, "M")
+        fun woman(name: String) = Person(name, "F")
+    }
+}
+
+val john = Person.man("John")
+val amanda = Person.woman("Amanda")
+----
+
+=== Kotlin idiomatic
+
+image:images/idiom.png[]
+
+=== Junit 4 : Lifecycle
+
+[source, kotlin]
+----
+class RepoTestJUnit4 {
+
+    // Exécuter pour chaque test 🔥
+    private val db: Database = ...
+    private val repo: Repository = ...
+
+    // 🤯 Où mettre le code du @BeforeClass ? 
+    
+    @Test
+    fun foo() {
+        // test repo
+    }
+}
+----
+
+=== JUnit 5 FTW !
+
+image::images/junit5.png[width=50%]
+
+* Refonte totale avec financement participatif 🤝
+* Nouvelle architecture 😎 : annotations, extensions
+
+=== 🤩Junit 5 : Lifecycle
+
+.Une seule instance pour tous les tests
+[source, kotlin]
+----
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class RepoTestJUnit5 {
+
+    private val db = TestDatabase().apply { start() }
+    private val repo = Repository(db.host, db.port)
+        
+    @Test
+    fun foo() {
+        // test repo
+    }
+}
+----
+
+=== 💡Tips Junit 5
+
+* Changer le cycle de vie par défaut
+
+.src/test/resources/junit-platform.properties
+[source]
+----
+junit.jupiter.testinstance.lifecycle.default = per_class
+----
 
 == Assertions
+
+image:images/assert.png[width=60%]
+
+=== 🌎Ecosystème Kotlin ?
 
 * AssertK vs AssertJ (fork de fest-assert)
 * AssertJ c'est bien : pourquoi changer ?
@@ -252,8 +340,11 @@ with(..) {
 
 * Awaitility untilAsserted
 
+== Mock and co
 
-== Mockito ?
+image:images/mock.png[]
+
+=== Mockito ?
 
 * Problème avec les classes finales
 * when mot clé réservé
