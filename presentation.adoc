@@ -205,6 +205,10 @@ class RepoTestJUnit4 {
 
 image:images/wtf.png[]
 
+=== Kotlin, quelques notions 🤓
+
+image:images/orelsan.gif[]
+
 === Kotlin `val`, `var`
 
 .val 👍
@@ -221,12 +225,31 @@ var age: Int = 37
 age = 38
 ----
 
-.var et null 👎
+=== Kotlin et null
+
+[source, kotlin]
+----
+val language: String = null //Compilation error
+val language: String? = null // ✅
+----
+
 [source, kotlin]
 ----
 var age: Int? = null
 age = 38
+age = null
 ----
+
+=== Classe en Kotlin
+
+.💪
+[source]
+----
+class Person(val name: String, val gender: String)
+----
+
+* _public_ par défaut
+* déclaration *constructeur* en même temps que les *propriétés*
 
 === Kotlin : No `static`
 
@@ -254,6 +277,34 @@ val amanda = Person.woman("Amanda")
 === Kotlin idiomatic
 
 image:images/idiom.png[]
+
+=== Junit 4 & Kotlin
+
+[source, kotlin]
+----
+class RepoTestJUnit4 {
+
+    companion object {
+        @JvmStatic
+        private lateinit var db: Database
+        @JvmStatic
+        private lateinit var repo: Repository
+
+        @BeforeClass
+        @JvmStatic
+        fun initialize() {
+            db = TestDatabase()
+            db.start()
+            repo = Repository(db.host, db.port)
+        }
+    }
+
+    @Test
+    fun foo() {
+        // test repo
+    }
+}
+----
 
 === Junit 4 : Lifecycle
 
@@ -309,27 +360,130 @@ class RepoTestJUnit5 {
 junit.jupiter.testinstance.lifecycle.default = per_class
 ----
 
+=== Nom des tests 
+
+* Pluôt camel case ?
+* Plutôt avec des _ ?
+
+=== En kotlin 
+
+* Utilisation entre backtick
+
+=== Nested inner class !
+
+Exemple de Nested
+
+=== Conclusion
+
+Junit 5 ❤️ Kotlin
+
 == Assertions
 
 image:images/assert.png[width=60%]
 
-=== 🌎Ecosystème Kotlin ?
+=== AssertJ
 
-* AssertK vs AssertJ (fork de fest-assert)
-* AssertJ c'est bien : pourquoi changer ?
-
-=== AssertJ et Kotlin
-
-* Pas de problème, on reste sur la forme
+* 🏟fork de fest-assert
+* _fluent_ assertions pour presque tous les types
 
 [source, kotlin]
 ----
-assertThat(...).isEqualTo()
+assertThat(person.getName()).isEqualTo("John Doe");
 ----
+
+=== 🌎Ecosystème Kotlin ?
+
+* AssertK 
+* Strikt  `expectThat(..)`
+
+[quote]
+`AssertJ` reste la référence pour les assertions
 
 === Tip AssertJ
 
-* dataclass
+.😤
+[source, kotlin]
+----
+assertThat(personDTO.firstName).isEqual("John")
+assertThat(personDTO.lastName).isEqual("Doe")
+assertThat(personDTO.age).isEqual(37)
+assertThat(personDTO.gender).isEqual("M")
+----
+
+
+.Output 🤨
+[source]
+----
+org.junit.ComparisonFailure: expected:<[37]> but was:<[36]>
+Expected :37
+Actual   :36
+----
+
+=== Data Class 💡
+
+[source, kotlin]
+----
+data class PersonDTO(val firstName: String, 
+                     val lastName: String, 
+                     val age:Int,
+                     val gender: String)
+----
+
+* ✅ toString()
+* ✅ equals(), hashcode()
+* ✅ copy()
+
+=== Equivalent en Java
+
+[source, java]
+----
+public class PersonDTO {
+
+    private final String firstName;
+    private final String lastName;
+    private final int age;
+    private final String gender;
+
+    public PersonDTO(String firstName, String lastName, 
+                     int age, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public String getFirstName() { return firstName;}
+    public String getLastName() { return lastName;}
+    public int getAge() { return age;}
+    public String getGender() { return gender;}
+
+    @Override
+    public String toString() { ... }
+    @Override
+    public boolean equals(Object obj) { ... }
+    @Override
+    public int hashCode() { ... }
+}
+----
+
+=== Data Class & AssertJ
+
+[source, kotlin]
+----
+val expected = PersonDTO("John", "Doe", 37, "M")
+
+assertThat(personDTO).isEqual(expected)
+----
+
+.Output 👍
+[source]
+----
+org.junit.ComparisonFailure:
+Expected :PersonDTO(firstName=John, lastName=Doe, age=37, gender=M)
+Actual   :PersonDTO(firstName=John, lastName=Doe, age=36, gender=M)
+----
+
+=== Tip AssertJ : Group assertions
 
 [source, kotlin]
 ----
@@ -338,7 +492,13 @@ with(..) {
 }
 ----
 
+=== Tip AssertJ : Awaitility
+
 * Awaitility untilAsserted
+
+=== Conclusion
+
+AssertJ ❤️ Kotlin
 
 == Mock and co
 
@@ -348,6 +508,12 @@ image:images/mock.png[]
 
 * Problème avec les classes finales
 * when mot clé réservé
+
+== Kotlin
+
+* Les classes sont finales par défaut
+
+* Il faut utiliser le mot-clé `open` pour explicitement autoriser l'héritage
 
 === Alternative Mockkk
 
@@ -363,6 +529,12 @@ every { } returns ...
 
 * Mockk matcher
 * ClearMockks
+
+=== Conclusion
+
+Mockito 💔 Kotlin
+
+Mockk ❤️ Kotlin
 
 == Misc Tips
 
