@@ -360,22 +360,57 @@ class RepoTestJUnit5 {
 junit.jupiter.testinstance.lifecycle.default = per_class
 ----
 
-=== Nom des tests 
+=== Nommage des tests
 
-* Pluôt camel case ?
-* Plutôt avec des _ ?
+.🐪 Camel-case
+[source, kotlin]
+----
+@Test
+fun shouldFindPersonIfQueryContainsName() { ...}
+----
 
-=== En kotlin 
+.〰 Dash-case
+[source, kotlin]
+----
+@Test
+fun should_find_person_if_query_contains_name() { ...}
+----
 
-* Utilisation entre backtick
+=== 💡Tips en kotlin 
 
-=== Nested inner class !
+.backtick
+[source, kotlin]
+----
+@Test
+fun `should find person if query contains name`() { ...}
+----
 
-Exemple de Nested
+=== Nested inner class
+
+[source, kotlin]
+----
+class RepoTestJUnit5 {
+
+    private val db = TestDatabase().apply { start() }
+    private val repo = Repository(db.host, db.port)
+        
+    @Nested
+    inner class QueryTest {
+        @Test
+        fun `should find person if query contains name`() { ...}
+    }
+
+    @Nested
+    inner class UpdateTest {
+        @Test
+        fun `should update person address`() { ...}
+    }
+}
+----
 
 === Conclusion
 
-Junit 5 ❤️ Kotlin
+Kotlin ❤️ Junit 5 
 
 == Assertions
 
@@ -483,58 +518,102 @@ Expected :PersonDTO(firstName=John, lastName=Doe, age=37, gender=M)
 Actual   :PersonDTO(firstName=John, lastName=Doe, age=36, gender=M)
 ----
 
-=== Tip AssertJ : Group assertions
+=== Group assertions with `with`
 
 [source, kotlin]
 ----
-with(..) {
-    assertThat()
+with(personDTO) {
+    assertThat(firstName).isEqual("John")
+    assertThat(lastName).isEqual("Doe")
+    assertThat(age).isEqual(37)
+    assertThat(gender).isEqual("M")
 }
 ----
 
-=== Tip AssertJ : Awaitility
+=== 🤓 `with` under the hood
 
-* Awaitility untilAsserted
+[source, kotlin]
+----
+with(personDTO) {
+    assertThat(this.firstName).isEqual("John")
+    assertThat(this.lastName).isEqual("Doe")
+    assertThat(this.age).isEqual(37)
+    assertThat(this.gender).isEqual("M")
+}
+----
+
+=== 🤓 `with` under the hood
+
+[source, kotlin]
+----
+with(personDTO, {
+    assertThat(this.firstName).isEqual("John")
+    assertThat(this.lastName).isEqual("Doe")
+    assertThat(this.age).isEqual(37)
+    assertThat(this.gender).isEqual("M")
+} )
+----
+
+=== 🤓 `with` under the hood
+
+`with` :
+
+1. Le `receiver`
+2. Une fonction avec comme _contexte_ le `receiver`
 
 === Conclusion
 
-AssertJ ❤️ Kotlin
+Kotlin ❤️ AssertJ
 
 == Mock and co
 
 image:images/mock.png[]
 
-=== Mockito ?
+=== 👻Mockito ?
 
-* Problème avec les classes finales
-* when mot clé réservé
+* `when` mot clé réservé ...
 
-== Kotlin
+* `mockito` ne sait pas mocker les classes _finales_
+** incubating extension : `mock-maker-inline`
 
-* Les classes sont finales par défaut
+== Kotlin et `final`
+
+* Les classes sont *finales* par défaut
 
 * Il faut utiliser le mot-clé `open` pour explicitement autoriser l'héritage
 
-=== Alternative Mockkk
+=== Alternative 👻 Mockk
 
-* Cf Devoxx
-* Syntax DSL élégante avec toutes les fonctions de mockito
+* Syntaxe DSL élégante avec toutes les fonctions de mockito
+
+image:images/mockk.png[]
 
 [source, kotlin]
 ----
-every { } returns ...
+every { ... } returns ...
+----
+
+=== Exemple
+
+.Mockito
+[source, kotlin]
+----
+----
+
+.Mockk
+[source, kotlin]
+----
 ----
 
 === Tips Mockk
 
-* Mockk matcher
 * ClearMockks
 
 === Conclusion
 
-Mockito 💔 Kotlin
+Kotlin 💔 Mockito  
 
-Mockk ❤️ Kotlin
+Kotlin ❤️ Mockk  
 
 == Misc Tips
 
