@@ -576,7 +576,7 @@ image:images/mock.png[]
 * `mockito` ne sait pas mocker les classes _finales_
 ** incubating extension : `mock-maker-inline`
 
-== Kotlin et `final`
+=== Kotlin et `final`
 
 * Les classes sont *finales* par défaut
 
