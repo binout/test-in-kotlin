@@ -371,7 +371,7 @@ junit.jupiter.testinstance.lifecycle.default = per_class
 fun shouldFindPersonIfQueryContainsName() { ...}
 ----
 
-.〰 Dash-case
+.〰 Snake-case
 [source, kotlin]
 ----
 @Test
@@ -687,52 +687,79 @@ class PhoneBookTest {
 
 === Conclusion
 
+[quote]
 Kotlin 💔 Mockito  
 
+[quote]
 Kotlin ❤️ Mockk  
 
-== Misc Tips
+== En résumé
 
-* Helper methods with default argument
-* DSL pour construire les jeux de données
-* Infix méthode 
-* Méthodes d'extensions pour simplifier la construction de jeu de donnée
+image:images/summary.png[]
 
-== Alors lundi vous commencez Kotlin ?
+//== Misc Tips
 
-Pre-requis :
-* Junit 5
-* Intellij
+//* Helper methods with default argument
+//* DSL pour construire les jeux de données
+//* Infix méthode 
+//* Méthodes d'extensions pour simplifier la construction de jeu de donnée (ex "42,S,M".toSize())
+//* String Template """ """
 
-1. Configurer maven/gradle
-2. src/test/kotlin
-3. add mockk as dependency
+== Alors convaincu ?
 
+image:images/convinced.gif[]
 
-== C'est pas suffisant, Retour d'expérience
+== Retour d'expérience
 
-2 ans : code base de 60 000 LOC en java (7 microservices)
+* Projet actuel (2 ans et 1/2)
+** ☕️ `60 000` LOC en java (7 microservices)
 
-Aujourd'hui : 5 microservices en full kotlin
+* Depuis 1 an 
+** 🤓 Apprentissage puis migration Kotlin
 
-Dans quelques mois : codebase totalement en kotlin
+* 🤩 Aujourd'hui 
+** 5 microservices en full kotlin
+** 2 autres en cours de migration
 
-== Chiffre
+== LE chiffre
 
-En moyenne 20% de LOC en moins (sans perte d'information)
+image:images/loc.png[]
 
-Exemple : 
-* stream().map().collect() -> map()
-* dataclass
+== Et sans perte de lisibilité ! 
 
-== ça change quoi ?
+* `dataclass` (`ValueObject` en DDD)
 
-LOVE
+* Boilerplate code 📉
 
-Difficile de revenir en arrière
+.Java Stream
+[source, java]
+----
+persons.stream()
+    .map(p -> p.getName() + "-" + p.getAge())
+    .collect(Collectors.toList())
+----
+
+.Kotlin
+[source, kotlin]
+----
+persons.map { "${it.name}-${it.age}" }
+----
+
+== Lundi matin 👇
+
+* Pré-requis: `Junit 5`, `Intellij`
+
+* 🚀 Etapes
+
+1. Configurer `maven`/`gradle` pour Kotlin
+2. Créer `src/test/kotlin` 
+3. Ajouter la dépendance `mockk`
 
 == Pour aller plus loin
 
-* Blog Lectra
-* Article Kotlin
-* Article Java
+* 📝 Tech Blog Lectra
+** https://tech-blog.lectra.com/
+
+* 🎮 Kotlin Koans
+** https://play.kotlinlang.org/koans/overview
+
