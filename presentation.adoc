@@ -2,6 +2,8 @@
 :source-highlighter: highlightjs
 :revealjs_theme: white
 :revealjs_history: true
+:revealjs_plugin_pdf: enabled
+:revealjs_plugin_highlight: enabled
 :data-uri:
 :icons: font
 
@@ -408,8 +410,13 @@ class RepoTestJUnit5 {
 }
 ----
 
+=== Nested inner class
+
+image:images/nested-test.png[width=80%]
+
 === Conclusion
 
+[quote]
 Kotlin ❤️ Junit 5 
 
 == Assertions
@@ -418,8 +425,8 @@ image:images/assert.png[width=60%]
 
 === AssertJ
 
-* 🏟fork de fest-assert
-* _fluent_ assertions pour presque tous les types
+* 🏟 fork de `fest-assert`
+* _fluent_ assertions pour (presque) tous les types
 
 [source, kotlin]
 ----
@@ -429,8 +436,9 @@ assertThat(person.getName()).isEqualTo("John Doe");
 === 🌎Ecosystème Kotlin ?
 
 * AssertK 
-* Strikt  `expectThat(..)`
+* Strikt : `expectThat(..)`
 
+🗣
 [quote]
 `AssertJ` reste la référence pour les assertions
 
@@ -556,10 +564,15 @@ with(personDTO, {
 
 === 🤓 `with` under the hood
 
-`with` :
+`with` -> 2 paramètres :
 
 1. Le `receiver`
 2. Une fonction avec comme _contexte_ le `receiver`
+
+=== 😝 Autopromo
+
+.BDX I/O 2018 : Dessine moi un DSL en Kotlin
+video::2PDiZsw4YhE[youtube, options=autoplay]
 
 === Conclusion
 
@@ -569,45 +582,108 @@ Kotlin ❤️ AssertJ
 
 image:images/mock.png[]
 
-=== 👻Mockito ?
+=== 👻 Mockito ?
 
-* `when` mot clé réservé ...
+image:images/mockito.png[]
 
-* `mockito` ne sait pas mocker les classes _finales_
-** incubating extension : `mock-maker-inline`
+* ⚠️ `when` mot clé réservé en `Kotlin`
+* 😭 `mockito` ne sait pas mocker les classes _finales_
+** incubating extensions : `mock-maker-inline`, `mockito-kotlin`
 
-== Kotlin et `final`
+=== 👍 Kotlin et `final`
 
 * Les classes sont *finales* par défaut
 
 * Il faut utiliser le mot-clé `open` pour explicitement autoriser l'héritage
 
+=== Mockito et Kotlin ?
+
+Plusieurs solutions pour les classes que l'on veut mocker : 
+
+1. 🤨 Ajouter le mot-clé `open` 
+2. 😩 Définir des interfaces 
+
 === Alternative 👻 Mockk
 
-* Syntaxe DSL élégante avec toutes les fonctions de mockito
-
+.Syntaxe DSL élégante avec toutes les fonctions de `Mockito`
 image:images/mockk.png[]
-
-[source, kotlin]
-----
-every { ... } returns ...
-----
 
 === Exemple
 
 .Mockito
 [source, kotlin]
 ----
+`when`(repo.findByName("John")).thenReturn(Person("John", "Doe"))
 ----
 
 .Mockk
 [source, kotlin]
 ----
+every { repo.findByName("John") } returns Person("John", "Doe")
 ----
 
-=== Tips Mockk
+=== Spring : Mockito -> Mockk
 
-* ClearMockks
+image:images/spring-mockk.png[width=70%]
+
+=== Mockk et Junit5
+
+[source, kotlin]
+----
+class PhoneBookTest {
+
+    private lateinit var repo: PersonRepository
+    private lateinit var phoneBook: PhoneBook
+
+    @BeforeEach
+    fun init() {
+        repo = mockk()
+        phoneBook = PhoneBook(repo)
+    } 
+
+    @Test
+    fun `should list contacts`() { 
+        every { repo.findByName("John") } returns Person("John", "Doe")
+        ...
+    }
+    
+}
+----
+
+=== lateinit var
+
+* 🤓 Permet d'indiquer que la propriété sera initialisé par quelqu'un (framework d'injection) avant son utilisation
+* ⚠️ Lance une exception lors de l'accès si pas initialisé
+* 💡 Permet d'éviter d'utiliser un type _nullable_
+
+=== Créer des mocks, ça coûte 💵
+
+* Il faut éviter l'instanciation d'un mock avant chaque test 
+** 🐌 car ça ralentit les tests !
+
+=== La solution 
+
+.😎 clearMocks()
+[source, kotlin]
+----
+class PhoneBookTest {
+
+    private val repo = mockk<PersonRepository>()
+    private val phoneBook = PhoneBook(repo)
+
+    @BeforeEach
+    fun init() {
+        clearMocks(repo)
+    } 
+
+    @Test
+    fun `should list contacts`() { 
+        every { repo.findByName("John") } returns Person("John", "Doe")
+        ...
+    }
+    
+}
+----
 
 === Conclusion
 
