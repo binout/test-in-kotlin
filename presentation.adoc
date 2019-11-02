@@ -2,6 +2,8 @@
 :source-highlighter: highlightjs
 :revealjs_theme: white
 :revealjs_history: true
+:revealjs_plugin_pdf: enabled
+:revealjs_plugin_highlight: enabled
 :data-uri:
 :icons: font
 
@@ -369,7 +371,7 @@ junit.jupiter.testinstance.lifecycle.default = per_class
 fun shouldFindPersonIfQueryContainsName() { ...}
 ----
 
-.〰 Dash-case
+.〰 Snake-case
 [source, kotlin]
 ----
 @Test
@@ -408,8 +410,13 @@ class RepoTestJUnit5 {
 }
 ----
 
+=== Nested inner class
+
+image:images/nested-test.png[width=80%]
+
 === Conclusion
 
+[quote]
 Kotlin ❤️ Junit 5 
 
 == Assertions
@@ -418,8 +425,8 @@ image:images/assert.png[width=60%]
 
 === AssertJ
 
-* 🏟fork de fest-assert
-* _fluent_ assertions pour presque tous les types
+* 🏟 fork de `fest-assert`
+* _fluent_ assertions pour (presque) tous les types
 
 [source, kotlin]
 ----
@@ -429,8 +436,9 @@ assertThat(person.getName()).isEqualTo("John Doe");
 === 🌎Ecosystème Kotlin ?
 
 * AssertK 
-* Strikt  `expectThat(..)`
+* Strikt : `expectThat(..)`
 
+🗣
 [quote]
 `AssertJ` reste la référence pour les assertions
 
@@ -556,10 +564,15 @@ with(personDTO, {
 
 === 🤓 `with` under the hood
 
-`with` :
+`with` -> 2 paramètres :
 
 1. Le `receiver`
 2. Une fonction avec comme _contexte_ le `receiver`
+
+=== 😝 Autopromo
+
+.BDX I/O 2018 : Dessine moi un DSL en Kotlin
+video::2PDiZsw4YhE[youtube, options=autoplay]
 
 === Conclusion
 
@@ -569,94 +582,184 @@ Kotlin ❤️ AssertJ
 
 image:images/mock.png[]
 
-=== 👻Mockito ?
+=== 👻 Mockito ?
 
-* `when` mot clé réservé ...
+image:images/mockito.png[]
 
-* `mockito` ne sait pas mocker les classes _finales_
-** incubating extension : `mock-maker-inline`
+* ⚠️ `when` mot clé réservé en `Kotlin`
+* 😭 `mockito` ne sait pas mocker les classes _finales_
+** incubating extensions : `mock-maker-inline`, `mockito-kotlin`
 
-=== Kotlin et `final`
+=== 👍 Kotlin et `final`
 
 * Les classes sont *finales* par défaut
 
 * Il faut utiliser le mot-clé `open` pour explicitement autoriser l'héritage
 
+=== Mockito et Kotlin ?
+
+Plusieurs solutions pour les classes que l'on veut mocker : 
+
+1. 🤨 Ajouter le mot-clé `open` 
+2. 😩 Définir des interfaces 
+
 === Alternative 👻 Mockk
 
-* Syntaxe DSL élégante avec toutes les fonctions de mockito
-
+.Syntaxe DSL élégante avec toutes les fonctions de `Mockito`
 image:images/mockk.png[]
-
-[source, kotlin]
-----
-every { ... } returns ...
-----
 
 === Exemple
 
 .Mockito
 [source, kotlin]
 ----
+`when`(repo.findByName("John")).thenReturn(Person("John", "Doe"))
 ----
 
 .Mockk
 [source, kotlin]
 ----
+every { repo.findByName("John") } returns Person("John", "Doe")
 ----
 
-=== Tips Mockk
+=== Spring : Mockito -> Mockk
 
-* ClearMockks
+image:images/spring-mockk.png[width=70%]
+
+=== Mockk et Junit5
+
+[source, kotlin]
+----
+class PhoneBookTest {
+
+    private lateinit var repo: PersonRepository
+    private lateinit var phoneBook: PhoneBook
+
+    @BeforeEach
+    fun init() {
+        repo = mockk()
+        phoneBook = PhoneBook(repo)
+    } 
+
+    @Test
+    fun `should list contacts`() { 
+        every { repo.findByName("John") } returns Person("John", "Doe")
+        ...
+    }
+    
+}
+----
+
+=== lateinit var
+
+* 🤓 Permet d'indiquer que la propriété sera initialisé par quelqu'un (framework d'injection) avant son utilisation
+* ⚠️ Lance une exception lors de l'accès si pas initialisé
+* 💡 Permet d'éviter d'utiliser un type _nullable_
+
+=== Créer des mocks, ça coûte 💵
+
+* Il faut éviter l'instanciation d'un mock avant chaque test 
+** 🐌 car ça ralentit les tests !
+
+=== La solution 
+
+.😎 clearMocks()
+[source, kotlin]
+----
+class PhoneBookTest {
+
+    private val repo = mockk<PersonRepository>()
+    private val phoneBook = PhoneBook(repo)
+
+    @BeforeEach
+    fun init() {
+        clearMocks(repo)
+    } 
+
+    @Test
+    fun `should list contacts`() { 
+        every { repo.findByName("John") } returns Person("John", "Doe")
+        ...
+    }
+    
+}
+----
 
 === Conclusion
 
+[quote]
 Kotlin 💔 Mockito  
 
+[quote]
 Kotlin ❤️ Mockk  
 
-== Misc Tips
+== En résumé
 
-* Helper methods with default argument
-* DSL pour construire les jeux de données
-* Infix méthode 
-* Méthodes d'extensions pour simplifier la construction de jeu de donnée
+image:images/summary.png[]
 
-== Alors lundi vous commencez Kotlin ?
+//== Misc Tips
 
-Pre-requis :
-* Junit 5
-* Intellij
+//* Helper methods with default argument
+//* DSL pour construire les jeux de données
+//* Infix méthode 
+//* Méthodes d'extensions pour simplifier la construction de jeu de donnée (ex "42,S,M".toSize())
+//* String Template """ """
 
-1. Configurer maven/gradle
-2. src/test/kotlin
-3. add mockk as dependency
+== Alors convaincu ?
 
+image:images/convinced.gif[]
 
-== C'est pas suffisant, Retour d'expérience
+== Retour d'expérience
 
-2 ans : code base de 60 000 LOC en java (7 microservices)
+* Projet actuel (2 ans et 1/2)
+** ☕️ `60 000` LOC en java (7 microservices)
 
-Aujourd'hui : 5 microservices en full kotlin
+* Depuis 1 an 
+** 🤓 Apprentissage puis migration Kotlin
 
-Dans quelques mois : codebase totalement en kotlin
+* 🤩 Aujourd'hui 
+** 5 microservices en full kotlin
+** 2 autres en cours de migration
 
-== Chiffre
+== LE chiffre
 
-En moyenne 20% de LOC en moins (sans perte d'information)
+image:images/loc.png[]
 
-Exemple : 
-* stream().map().collect() -> map()
-* dataclass
+== Et sans perte de lisibilité ! 
 
-== ça change quoi ?
+* `dataclass` (`ValueObject` en DDD)
 
-LOVE
+* Boilerplate code 📉
 
-Difficile de revenir en arrière
+.Java Stream
+[source, java]
+----
+persons.stream()
+    .map(p -> p.getName() + "-" + p.getAge())
+    .collect(Collectors.toList())
+----
+
+.Kotlin
+[source, kotlin]
+----
+persons.map { "${it.name}-${it.age}" }
+----
+
+== Lundi matin 👇
+
+* Pré-requis: `Junit 5`, `Intellij`
+
+* 🚀 Etapes
+
+1. Configurer `maven`/`gradle` pour Kotlin
+2. Créer `src/test/kotlin` 
+3. Ajouter la dépendance `mockk`
 
 == Pour aller plus loin
 
-* Blog Lectra
-* Article Kotlin
-* Article Java
+* 📝 Tech Blog Lectra
+** https://tech-blog.lectra.com/
+
+* 🎮 Kotlin Koans
+** https://play.kotlinlang.org/koans/overview
+
