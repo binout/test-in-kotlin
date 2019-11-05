@@ -117,14 +117,6 @@ Au cours de cette présentation, je vais aborder des concepts du langage Kotlin 
 * Une librairie d'assertions
 * Une librairie de mock
 
-=== 🤨kotlin.test
-
-* _Built-in_ librairie
-** annotations (`@BeforeEach`, ....)
-** assertions (`assertEquals`, ...)
-
-* A besoin d'un runner : `Junit`, `TestNG`
-
 === KotlinTest
 
 image:images/kotlintest.png[]
@@ -692,6 +684,94 @@ Kotlin 💔 Mockito
 
 [quote]
 Kotlin ❤️ Mockk  
+
+== One more thing 😎
+
+.Kotlin String Template
+[source,kotlin]
+----
+val age = 42
+val json = """
+    {
+        "firstName" : "John",
+        "lastName" : "Doe"
+        "age" : $age
+    }
+"""
+----
+
+== One more AWESOME thing 🤩
+
+.Domain Driven Desing _Style_
+[source,kotlin]
+----
+data class Grading(val value:String)
+data class SpecialGrading1(val value:String)
+data class SpecialGrading2(val value:String)
+
+data class ComplexSize(
+    val grading: Grading, 
+    val specialGrading1: SpecialGrading1? = null, 
+    val specialGrading2: SpecialGrading2? = null)
+----
+
+== One more AWESOME thing 🤩
+
+.Jeu de donnée en test 😤
+[source,kotlin]
+----
+val size1 = ComplexSize(
+    grading = Grading("38"),
+    specialGrading1 = SpecialGrading1("M")  
+)
+
+val size2 = ComplexSize(
+    grading = Grading("40"),
+    specialGrading1 = SpecialGrading1("S"),
+    specialGrading2 = SpecialGrading2("30")  
+)
+
+val size3 = ComplexSize(
+    grading = Grading("42"),
+    specialGrading2 = SpecialGrading2("40")  
+)
+----
+
+== One more AWESOME thing 🤩
+
+.Extension Function
+[source,kotlin]
+----
+fun String.toSize() :Size { 
+    // `this` is the current instance of String
+ }
+
+val size1 = "38".toSize()
+val size2 = "40,S,30".toSize()
+val size3 = "42,,40".toSize()
+----
+
+== One more AWESOME thing 🤩
+
+.Extension Function
+[source,kotlin]
+----
+fun String.toSize() :Size {
+    val s = this.split(",")
+    return when {
+        parts.size == 1 -> 
+            Size(Grading(s[0]))
+        parts.size == 2 -> 
+            Size(Grading(s[0]), SpecialGrading1(s[1]), null)
+        parts.size == 3 -> 
+            Size(
+                Grading(s[0]), 
+                if (s[1].length == 0) null else SpecialGrading1(s[1]), 
+                SpecialGrading2(s[2]))
+        else -> throw IllegalArgumentException("Bad size format : $s")
+    }
+}
+----
 
 == En résumé
 
