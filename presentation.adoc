@@ -763,3 +763,7 @@ persons.map { "${it.name}-${it.age}" }
 * 🎮 Kotlin Koans
 ** https://play.kotlinlang.org/koans/overview
 
+== Merci !
+
+.https://openfeedback.io/
+image:images/qr-code.png[]
