@@ -56,7 +56,7 @@ image:images/kotlin-2019-3.png[]
 
 Tech Lead 
 
-image:images/lectra.png[]
+image:images/lectra.png[width=30%]
 
 * icon:twitter[] icon:github[] binout 
 * ❤️ Asciidoctor (🐜)
@@ -687,7 +687,7 @@ Kotlin ❤️ Mockk
 
 == One more thing 😎
 
-.Kotlin String Template
+.Kotlin String : Template & Raw
 [source,kotlin]
 ----
 val age = 42
@@ -715,7 +715,7 @@ data class ComplexSize(
     val specialGrading2: SpecialGrading2? = null)
 ----
 
-== One more AWESOME thing 🤩
+=== One more AWESOME thing 🤩
 
 .Jeu de donnée en test 😤
 [source,kotlin]
@@ -737,7 +737,7 @@ val size3 = ComplexSize(
 )
 ----
 
-== One more AWESOME thing 🤩
+=== One more AWESOME thing 🤩
 
 .Extension Function
 [source,kotlin]
@@ -751,7 +751,7 @@ val size2 = "40,S,30".toSize()
 val size3 = "42,,40".toSize()
 ----
 
-== One more AWESOME thing 🤩
+=== One more AWESOME thing 🤩
 
 .Extension Function
 [source,kotlin]
@@ -791,15 +791,22 @@ image:images/convinced.gif[]
 
 == Retour d'expérience
 
-* Projet actuel (2 ans et 1/2)
-** ☕️ `60 000` LOC en java (7 microservices)
+* 🏭Projet actuel (2 ans et 1/2)
+** *7* microservices en `Spring Boot`
+** ☕️ *50 000* LOC en `Java` 
 
 * Depuis 1 an 
 ** 🤓 Apprentissage puis migration Kotlin
 
+== Retour d'expérience
+
 * 🤩 Aujourd'hui 
-** 5 microservices en full kotlin
-** 2 autres en cours de migration
+** *5* microservices en full `Kotlin` 
+** *2* autres en cours de migration
+
+* *35 000* LOC en tout
+** ☕️*10 000* en `Java`
+** 👻*25 000* en `Kotlin`
 
 == LE chiffre
 
@@ -834,6 +841,10 @@ persons.map { "${it.name}-${it.age}" }
 1. Configurer `maven`/`gradle` pour Kotlin
 2. Créer `src/test/kotlin` 
 3. Ajouter la dépendance `mockk`
+
+== Sinon ... 😉
+
+TODO
 
 == Pour aller plus loin
 
