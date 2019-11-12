@@ -12,7 +12,7 @@
 
 image:images/kotlin.png[]
 
-=== ⏱Kotlin, en quelque dates
+=== ⏱Kotlin, en quelques dates
 
 * 2010 💡 JetBrains
 * 2012 🤝 Open Source
