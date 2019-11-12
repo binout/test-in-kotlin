@@ -854,5 +854,7 @@ image:images/lectra-recrute.png[width=80%]
 
 == Merci !
 
+* icon:github[] https://github.com/binout/test-in-kotlin
+
 .https://openfeedback.io/
 image:images/qr-code.png[]
