@@ -702,7 +702,7 @@ val json = """
 
 == One more AWESOME thing 🤩
 
-.Domain Driven Desing _Style_
+.Domain Driven Design _Style_
 [source,kotlin]
 ----
 data class SizeOption(val value:String)
@@ -715,7 +715,7 @@ data class ComplexSize(
 
 === One more AWESOME thing 🤩
 
-.Jeu de donnée en test 😤
+.Jeu de données en test 😤
 [source,kotlin]
 ----
 val size1 = ComplexSize(
@@ -780,8 +780,6 @@ image:images/summary.png[]
 //* Helper methods with default argument
 //* DSL pour construire les jeux de données
 //* Infix méthode 
-//* Méthodes d'extensions pour simplifier la construction de jeu de donnée (ex "42,S,M".toSize())
-//* String Template """ """
 
 == Alors convaincu ?
 
