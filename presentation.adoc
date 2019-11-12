@@ -760,7 +760,8 @@ class PhoneBookTest {
 === Créer des mocks, ça coûte 💵
 
 * Il faut éviter l'instanciation d'un mock avant chaque test 
-** 🐌 car ça ralentit les tests !
+** 🐌 ça ralentit les tests !
+** jusqu'à `500 ms` pour le 1er mock
 
 === La solution 
 
