@@ -4,6 +4,7 @@
 :revealjs_history: true
 :revealjs_plugin_pdf: enabled
 :revealjs_plugin_highlight: enabled
+:customcss: custom.css
 :data-uri:
 :icons: font
 
@@ -844,6 +845,8 @@ image:images/lectra-recrute.png[width=80%]
 
 == Pour aller plus loin
 
+* icon:github[] https://github.com/binout/test-in-kotlin
+
 * 📝 Tech Blog Lectra
 ** https://tech-blog.lectra.com/
 
@@ -851,8 +854,6 @@ image:images/lectra-recrute.png[width=80%]
 ** https://play.kotlinlang.org/koans/overview
 
 == Merci !
-
-* icon:github[] https://github.com/binout/test-in-kotlin
 
 .https://openfeedback.io/
 image:images/qr-code.png[]
