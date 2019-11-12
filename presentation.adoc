@@ -162,7 +162,7 @@ public class RepoTestJUnit4 {
     }
 
     @Test
-    public void foo() {
+    public void shouldFindJohn() {
         // test repo
     }
 }
@@ -190,7 +190,7 @@ class RepoTestJUnit4 {
     }
 
     @Test
-    fun foo() {
+    fun shouldFindJohn() {
         // test repo
     }
 }
@@ -295,7 +295,7 @@ class RepoTestJUnit4 {
     }
 
     @Test
-    fun foo() {
+    fun shouldFindJohn() {
         // test repo
     }
 }
@@ -314,7 +314,7 @@ class RepoTestJUnit4 {
     // 🤯 Où mettre le code du @BeforeClass ? 
     
     @Test
-    fun foo() {
+    fun shouldFindJohn() {
         // test repo
     }
 }
@@ -339,7 +339,7 @@ class RepoTestJUnit5 {
     private val repo = Repository(db.host, db.port)
         
     @Test
-    fun foo() {
+    fun shouldFindJohn() {
         // test repo
     }
 }
@@ -353,6 +353,23 @@ class RepoTestJUnit5 {
 [source]
 ----
 junit.jupiter.testinstance.lifecycle.default = per_class
+----
+
+=== 🤩Junit 5 : Lifecycle
+
+.Une seule instance pour tous les tests *du projet*
+[source, kotlin]
+----
+class RepoTestJUnit5 {
+
+    private val db = TestDatabase().apply { start() }
+    private val repo = Repository(db.host, db.port)
+        
+    @Test
+    fun shouldFindJohn() {
+        // test repo
+    }
+}
 ----
 
 === Nommage des tests
@@ -406,6 +423,73 @@ class RepoTestJUnit5 {
 === Nested inner class
 
 image:images/nested-test.png[width=80%]
+
+=== 👴Junit 4 & Java
+
+[source, java]
+----
+public class RepoTestJUnit4 {
+
+    private static Database db;
+    private static Repository repo;
+
+    @BeforeClass
+    public void initialize() {
+        db = new TestDatabase()
+        db.start()
+        repo = new Repository(db)
+    }
+
+    @Test
+    public void shouldFindJohn() {
+        // test repo
+    }
+}
+----
+
+=== 😱Junit 4 & Kotlin
+
+[source, kotlin]
+----
+class RepoTestJUnit4 {
+
+    companion object {
+        @JvmStatic
+        private lateinit var db: Database
+        @JvmStatic
+        private lateinit var repo: Repository
+
+        @BeforeClass
+        @JvmStatic
+        fun initialize() {
+            db = TestDatabase()
+            db.start()
+            repo = Repository(db.host, db.port)
+        }
+    }
+
+    @Test
+    fun shouldFindJohn() {
+        // test repo
+    }
+}
+----
+
+=== 🤩Junit 5 & Kotlin *idiomatic*
+
+[source, kotlin]
+----
+class RepoTestJUnit5 {
+
+    private val db = TestDatabase().apply { start() }
+    private val repo = Repository(db.host, db.port)
+        
+    @Test
+    fun `should find John`() { 
+        // test repo
+    }
+}
+----
 
 === Conclusion
 
@@ -620,6 +704,30 @@ every { repo.findByName("John") } returns Person("John", "Doe")
 image:images/spring-mockk.png[width=70%]
 
 === Mockk et Junit5
+
+[source, kotlin]
+----
+class PhoneBookTest {
+
+    private var repo: PersonRepository? = null
+    private var phoneBook: PhoneBook? = null
+
+    @BeforeEach
+    fun init() {
+        repo = mockk()
+        phoneBook = PhoneBook(repo)
+    } 
+
+    @Test
+    fun `should list contacts`() { 
+        every { repo!!.findByName("John") } returns Person("John", "Doe")
+        ...
+    }
+    
+}
+----
+
+=== Mockk et Junit5 : `lateinit`
 
 [source, kotlin]
 ----
