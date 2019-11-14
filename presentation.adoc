@@ -36,10 +36,10 @@ fun main() {
 
 === Forces du langage
 
-* 💪_Null Safety_ 
-* 👍_Immutable first_ 
-* 📖Concis et expressif
-* 🤝Interopabilité avec `Java`
+* 💪 _Null Safety_ 
+* 👍 _Immutable first_ 
+* 📖 Concis et expressif
+* 🤝 Interopabilité avec `Java`
 
 === Kotlin en 2019
 
@@ -55,12 +55,11 @@ image:images/kotlin-2019-3.png[]
 
 == val me = "Benoit Prioux"
 
-Tech Lead 
+icon:twitter[] icon:github[] binout / ❤️ Asciidoctor (🐜)
 
-image:images/lectra.png[width=30%]
+image:images/lectra.png[width=40%]
 
-* icon:twitter[] icon:github[] binout 
-* ❤️ Asciidoctor (🐜)
+image:images/lectra-versalis.png[width=40%]
 
 == { java -> kotlin }
 
@@ -72,9 +71,9 @@ image::images/testerdouter.png[]
 
 == 🎮 Un super terrain de jeu 
 
-* 😇Pas du code de production
-* 😜Plus de liberté dans le design
-* 🧔Souvent un peu de code _barbant_ 
+* 😇 Pas du code de production
+* 😜 Plus de liberté dans le design
+* 🧔 Souvent un peu de code _barbant_ 
 ** préparation des jeux de données
 
 == 💡Ma proposition 
@@ -950,7 +949,8 @@ persons.map { "${it.name}-${it.age}" }
 
 == Sinon ... 😉
 
-image:images/lectra-recrute.png[width=80%]
+.drh-lectra@lectra.com
+image:images/lectra-recrute.png[width=70%]
 
 == Pour aller plus loin
 
